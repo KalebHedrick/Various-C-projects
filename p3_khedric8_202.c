@@ -253,10 +253,10 @@ void printAll(node **head,int set_num) {
 }
 void removeNode(node **head,char remove_string[50], int set_num) {
     node *currNode = *head;
-    int i,k = 0;
+    int i,k;
     char temp[50][50];
     int removed = 0;
-    char empty[50] = "";
+    k = 0;
     for(i = 0; i < set_num; i++) {
         currNode = currNode->next;
     }
@@ -362,11 +362,9 @@ void symmetricdifference(node **head, int dest_set, int set_1, int set_2) {
 node *set2 = *head;
 node *dest = *head;
 node intersection_temp;
+int set_num,i;
 intersection(head,dest_set,set_1,set_2);
-int set_num = 0;
-    int i;
-    int j;
-    int invalid = 0;
+set_num = 0;
     for(i = 0; i < set_1; i++) {
         set1 = set1->next;
     }
