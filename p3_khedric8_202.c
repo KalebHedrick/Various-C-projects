@@ -39,38 +39,47 @@ int main()
     char inBuf[50];
     int Set_Amount,set_num,set_num2,set_num3,quit = 0;
     char user_input;
+    char temp_input[50];
     char user_String[50];
     int i;
     int user_add = 0;
     node *headstr = NULL;
-    node **currNode;
+    node *currNode2;
     printf("Enter the number of sets to create: ");
     fgets(inBuf, 50, stdin);
     sscanf(inBuf, "%i", &Set_Amount);
     headstr = (node *)malloc(sizeof(node));
    sets_create(&headstr,Set_Amount);
     while(quit == 0) {
-        printf("Add String: a or A\n");
-        printf("Remove String: r or R\n");
-        printf("Union: u or U\n");
-        printf("Intersection: i or I\n");
-        printf("Symmetric Difference: s or S\n");
-        printf("Copy: c or C\n");
-        printf("Clear: z or Z\n");
-        printf("Print Set: p\n");
-        printf("Print All Sets: P\n");
-        printf("Quit: q or Q\n");
+        printf("Choose from the menu prompt below:\n");
+        printf("\t*****Menu Options*****\n");
+        printf("\tAdd String: a or A\n");
+        printf("\tRemove String: r or R\n");
+        printf("\tUnion: u or U\n");
+        printf("\tIntersection: i or I\n");
+        printf("\tSymmetric Difference: s or S\n");
+        printf("\tCopy: c or C\n");
+        printf("\tClear: z or Z\n");
+        printf("\tPrint Set: p\n");
+        printf("\tPrint All Sets: P\n");
+        printf("\tQuit: q or Q\n");
         fgets(inBuf, 50, stdin);
-        sscanf(inBuf, "%c", &user_input);
+        sscanf(inBuf, "%s", temp_input);
+        if (strlen(temp_input) > 1) {
+            user_input = 'N';
+        }
+        else {
+            user_input = temp_input[0];
+        }
         switch(user_input) {
             case 'a':
             case 'A':
-                printf("Enter in the string you want to add\n");
-                fgets(inBuf, 50, stdin);
-                sscanf(inBuf, "%s", user_String);
                 printf("Enter in the set you want to add to Set 0 - Set %i]\n",Set_Amount-1);
                 fgets(inBuf, 50, stdin);
                 sscanf(inBuf, "%i", &set_num);
+                printf("Enter in the string you want to add\n");
+                fgets(inBuf, 50, stdin);
+                sscanf(inBuf, "%s", user_String);
                 addNode(&headstr,user_String,set_num,user_add);
                 break;
             case 'p':
@@ -101,12 +110,12 @@ int main()
                 break;
             case 'c':
             case 'C':
-                printf("What set do you want to copy from?\n");
-                fgets(inBuf, 50, stdin);
-                sscanf(inBuf, "%i", &set_num);
                 printf("What set do you want to copy to?\n");
                 fgets(inBuf, 50, stdin);
                 sscanf(inBuf, "%i", &set_num2);
+                printf("What set do you want to copy from?\n");
+                fgets(inBuf, 50, stdin);
+                sscanf(inBuf, "%i", &set_num);
                 copy(&headstr,set_num,set_num2);
                 break;
             case 'u':
@@ -147,8 +156,23 @@ int main()
                 fgets(inBuf, 50, stdin);
                 sscanf(inBuf, "%i", &set_num3);
                 symmetricdifference(&headstr,set_num,set_num2,set_num3);
+                break;
             case 'q':
             case 'Q':
+                currNode2 = headstr->next;
+                for (i=0; i < Set_Amount; i++) {
+                    free(headstr);
+                    if (i+1 == Set_Amount) {
+                        break;
+                    }
+                    headstr = currNode2;
+                    currNode2 = headstr->next;
+                }
+                printf("Memory freed successfully\n");
+                quit = 1;
+                break;
+            default:
+                printf("Invalid menu option, please select a valid option\n");
         }
         }
     return 0;
